@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace JsonApexGeneratorCore.Controllers
 {
 	[Route("api/[controller]")]
-	public class ValuesController : ControllerBase
+	public class MainController : ControllerBase
 	{
 		// GET: api/values
 		[HttpGet]
@@ -18,9 +18,8 @@ namespace JsonApexGeneratorCore.Controllers
 			return new[] { "value1", "value2" };
 		}
 
-		// GET api/values/5
-		[HttpGet("{id}")]
-		public string Get(int id)
+		[HttpPost]
+		public string generateFiles()
 		{
 			return "value";
 		}
