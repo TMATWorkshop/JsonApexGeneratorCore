@@ -80,7 +80,7 @@ class FormPage extends React.Component {
   }
 
   generateFiles(event) {
-    api.generateFiles();
+    api.generateFiles(this.state.className, this.state.namedCredential, this.state.requestJSON, this.state.responseJSON);
   }
 
   render() {
@@ -135,7 +135,6 @@ class FormPage extends React.Component {
                     required
                   >
                     <option value="POST">POST</option>
-                    <option value="GET">GET</option>
                   </NativeSelect>
                 </GridItem>
                 <GridItem xs={12}>

@@ -19,8 +19,9 @@ namespace JsonApexGeneratorCore.Controllers
 		}
 
 		[HttpPost]
-		public string generateFiles()
+		public string Post()
 		{
+			
 			return "value";
 		}
 
