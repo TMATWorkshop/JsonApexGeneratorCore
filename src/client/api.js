@@ -6,14 +6,14 @@ function handleErrors(response) {
 }
 
 function getValues() {
-	return fetch('/api/values')
+	return fetch('/api/apex')
 		.then(handleErrors)
 		.then(response => response.json())
 		.catch(err => alert(err));
 }
 
 function getFiles() {
-	return fetch('/api/values')
+	return fetch('/api/apex')
 		.then(handleErrors)
 		.then(response => response.json())
 		.catch(err => alert(err));

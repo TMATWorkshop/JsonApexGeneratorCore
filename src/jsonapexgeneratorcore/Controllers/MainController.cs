@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace JsonApexGeneratorCore.Controllers
 {
 	[Route("api/[controller]")]
-	public class MainController : ControllerBase
+	public class ApexController : ControllerBase
 	{
 		// GET: api/values
 		[HttpGet]
