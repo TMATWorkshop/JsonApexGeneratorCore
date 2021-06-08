@@ -80,7 +80,8 @@ class FormPage extends React.Component {
   }
 
   generateFiles(event) {
-    api.generateFiles(this.state.className, this.state.namedCredential, this.state.requestJSON, this.state.responseJSON);
+    //api.generateFiles(this.state.className, this.state.namedCredential, this.state.requestJSON, this.state.responseJSON);
+    api.generateFiles('','','','');
   }
 
   render() {
