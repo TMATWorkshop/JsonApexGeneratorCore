@@ -19,12 +19,20 @@ namespace JsonApexGeneratorCore.Controllers
 		}
 
 		[HttpPost]
-		public string Post()
+		public PostResponse Post(String className, String namedCredential, String requestJSON, String responseJSON)
 		{
-			
-			return "value";
+			PostResponse response = new PostResponse();
+			response.handler = "public class className {}";
+			return response;
 		}
 
 		//Generate Apex Code
+		public class PostResponse {
+			public String handler;
+			public String handlerTest;
+			public String mock;
+			public String wrapper;
+			public String wrapperTest;
+		}
 	}
 }

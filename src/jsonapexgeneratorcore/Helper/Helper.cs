@@ -33,10 +33,12 @@ public static class Helper {
         List<String> lstVars = new List<String>();
 
         //Parse JSON
-        JsonDocument parsedJSON = JsonDocument.Parse(jsonStr);
+        using(JsonDocument parsedJSON = JsonDocument.Parse(jsonStr)) {
+            JsonElement root = parsedJSON.RootElement;
 
-        foreach(JsonProperty property in parsedJSON.RootElement.EnumerateObject()) {
-            lstVars.Add(parseVarType(property));
+            foreach(JsonProperty property in root.EnumerateObject()) {
+                lstVars.Add(parseVarType(property));
+            }
         }
         lstVars.Remove("");
         return lstVars;
@@ -56,6 +58,9 @@ public static class Helper {
         }
         if (property.GetType() == typeof(Int32)) {
             apexType = "Integer " + propertyName + " { get; set; }";
+        }
+        if (property.GetType() == typeof(Object)) {
+            property.
         }
         
         return apexType;

@@ -43,6 +43,7 @@ class FormPage extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.validateRequestJSON = this.validateRequestJSON.bind(this);
     this.validateResponseJSON = this.validateResponseJSON.bind(this);
+    this.generateFiles = this.generateFiles.bind(this);
   }
 
   handleChange(e) {
@@ -80,8 +81,7 @@ class FormPage extends React.Component {
   }
 
   generateFiles(event) {
-    //api.generateFiles(this.state.className, this.state.namedCredential, this.state.requestJSON, this.state.responseJSON);
-    api.generateFiles('','','','');
+    api.generateFiles(this.state.className, this.state.namedCredential, this.state.requestJSON, this.state.responseJSON);
   }
 
   render() {
