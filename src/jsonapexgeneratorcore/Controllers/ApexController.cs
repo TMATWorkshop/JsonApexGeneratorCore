@@ -18,19 +18,12 @@ namespace JsonApexGeneratorCore.Controllers
 			return new[] { "value1", "value2" };
 		}
 
-		/*
 		[HttpPost]
 		public PostResponse Post(String className, String namedCredential, String requestJSON, String responseJSON)
 		{
 			PostResponse response = new PostResponse();
 			response.handler = "public class className {}";
 			return response;
-		}
-		*/
-		[HttpPost]
-		public String Post(String className, String namedCredential, String requestJSON, String responseJSON)
-		{
-			return "public class className {}";
 		}
 
 		//Generate Apex Code

@@ -24,9 +24,9 @@ function generateFiles(className, namedCredential, requestJSON, responseJSON) {
 	return fetch('/api/apex', requestOptions)
 		.then(handleErrors)
 		.then(response => {
-			console.log(response);
-			console.log(JSON.stringify(response));
-			console.log(JSON.parse(response));
+			console.log(response.body);
+			console.log(JSON.stringify(response.body));
+			console.log(JSON.parse(response.body));
 			const element = document.createElement("a");
 			const file = new Blob([response.handler], {type: 'text/plain'});
 			element.href = URL.createObjectURL(file);
