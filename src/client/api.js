@@ -35,5 +35,5 @@ function generateFiles(className, namedCredential, requestJSON, responseJSON) {
 }
 
 export default {
-	getValues
+	getValues,generateFiles
 };
