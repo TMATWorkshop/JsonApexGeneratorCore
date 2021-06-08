@@ -28,7 +28,7 @@ function generateFiles(className, namedCredential, requestJSON, responseJSON) {
 			//console.log(JSON.stringify(response.body));
 			//console.log(JSON.parse(response.body));
 			const element = document.createElement("a");
-			const file = new Blob([response.data], {type: 'text/plain'});
+			const file = new Blob([response.blob()], {type: 'text/plain'});
 			element.href = URL.createObjectURL(file);
 			element.download = className + 'Handler.apxc';
 			document.body.appendChild(element); // Required for this to work in FireFox
