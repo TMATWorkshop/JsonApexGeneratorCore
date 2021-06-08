@@ -60,7 +60,7 @@ public static class Helper {
             apexType = "Integer " + propertyName + " { get; set; }";
         }
         if (property.GetType() == typeof(Object)) {
-            property.
+            //property.
         }
         
         return apexType;
