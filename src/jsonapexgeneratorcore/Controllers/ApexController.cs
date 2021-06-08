@@ -19,11 +19,10 @@ namespace JsonApexGeneratorCore.Controllers
 		}
 
 		[HttpPost]
-		public PostResponse Post(String className, String namedCredential, String requestJSON, String responseJSON)
+		public IActionResult Post(String className, String namedCredential, String requestJSON, String responseJSON)
 		{
-			PostResponse response = new PostResponse();
-			response.handler = "public class className {}";
-			return response;
+			Byte[] pdfBytes = System.Text.Encoding.ASCII.GetBytes("public class test { }");
+			return new FileContentResult(pdfBytes, "text/plain");
 		}
 
 		//Generate Apex Code

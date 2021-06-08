@@ -24,11 +24,11 @@ function generateFiles(className, namedCredential, requestJSON, responseJSON) {
 	return fetch('/api/apex', requestOptions)
 		.then(handleErrors)
 		.then(response => {
-			console.log(response.body);
-			console.log(JSON.stringify(response.body));
-			console.log(JSON.parse(response.body));
+			//console.log(response.body);
+			//console.log(JSON.stringify(response.body));
+			//console.log(JSON.parse(response.body));
 			const element = document.createElement("a");
-			const file = new Blob([response.handler], {type: 'text/plain'});
+			const file = new Blob([response], {type: 'text/plain'});
 			element.href = URL.createObjectURL(file);
 			element.download = className + 'Handler.apxc';
 			document.body.appendChild(element); // Required for this to work in FireFox
