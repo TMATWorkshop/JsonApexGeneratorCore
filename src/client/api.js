@@ -5,15 +5,15 @@ function handleErrors(response) {
 	return response;
 }
 
-function generateFiles(className, namedCredential, calloutMethod, requestJSON, responseJSON) {
+function generateFiles(classNameParam, namedCredentialParam, calloutMethodParam, requestJSONParam, responseJSONParam) {
 	const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 'className': className,
-								'namedCredential': namedCredential,
-								'calloutMethod': calloutMethod,
-								'requestJSON': requestJSON,
-								'responseJSON': responseJSON })
+        body: JSON.stringify({ className: classNameParam,
+								namedCredential: namedCredentialParam,
+								calloutMethod: calloutMethodParam,
+								requestJSON: requestJSONParam,
+								responseJSON: responseJSONParam })
     };
 	fetch('/api/apex/', requestOptions)
 		.then(handleErrors)
