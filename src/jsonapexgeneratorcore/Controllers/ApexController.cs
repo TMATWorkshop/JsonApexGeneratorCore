@@ -12,6 +12,11 @@ namespace JsonApexGeneratorCore.Controllers
 	{
 		[HttpPost]
 		public IActionResult GenerateFiles(String className, String namedCredential, String calloutMethod, String requestJSON, String responseJSON) {
+			Console.WriteLine("Params: " + className);
+			Console.WriteLine("Params: " + namedCredential);
+			Console.WriteLine("Params: " + calloutMethod);
+			Console.WriteLine("Params: " + requestJSON);
+			Console.WriteLine("Params: " + responseJSON);
 			Generator gen = new Generator(className, namedCredential, calloutMethod, requestJSON, responseJSON);
 			List<Models.FileModel> fileModels = gen.generateFiles();
 
