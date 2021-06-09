@@ -56,36 +56,39 @@ namespace JsonApexGeneratorCore.Helper {
 
         public List<Models.FileModel> generateFiles() {
             List<Models.FileModel> fileModels = new List<Models.FileModel>();
-            Templates templateHelper = new Templates();
+            //Templates templateHelper = new Templates();
 
             Models.FileModel wrapper = new Models.FileModel();
             wrapper.name = this.className + "Wrapper";
-            //String wrapperTemplate = templateHelper.wrapperTemplate;
             String wrapperTemplate = File.ReadAllText("../src/jsonapexgeneratorcore/Assets/wrapper.txt");
             wrapper.body = System.Text.Encoding.ASCII.GetBytes(replaceTemplate(wrapperTemplate));
             fileModels.Add(wrapper);
 
             Models.FileModel wrapperTest = new Models.FileModel();
-            wrapper.name = this.className + "WrapperTest";
-            String wrapperTestTemplate = templateHelper.wrapperTemplate;
+            wrapperTest.name = this.className + "WrapperTest";
+            //String wrapperTestTemplate = templateHelper.wrapperTemplate;
+            String wrapperTestTemplate = File.ReadAllText("../src/jsonapexgeneratorcore/Assets/wrapperTest.txt");
             wrapperTest.body = System.Text.Encoding.ASCII.GetBytes(replaceTemplate(wrapperTestTemplate));
             fileModels.Add(wrapperTest);
 
             Models.FileModel handler = new Models.FileModel();
             handler.name = this.className + "Handler";
-            String handlerTemplate = templateHelper.wrapperTemplate;
+            //String handlerTemplate = templateHelper.wrapperTemplate;
+            String handlerTemplate = File.ReadAllText("../src/jsonapexgeneratorcore/Assets/handler.txt");
             handler.body = System.Text.Encoding.ASCII.GetBytes(replaceTemplate(handlerTemplate));
             fileModels.Add(handler);
 
             Models.FileModel handlerTest = new Models.FileModel();
             handlerTest.name = this.className + "HandlerTest";
-            String handlerTestTemplate = templateHelper.wrapperTemplate;
+            //String handlerTestTemplate = templateHelper.wrapperTemplate;
+            String handlerTestTemplate = File.ReadAllText("../src/jsonapexgeneratorcore/Assets/handlerTest.txt");
             handlerTest.body = System.Text.Encoding.ASCII.GetBytes(replaceTemplate(handlerTestTemplate));
             fileModels.Add(handlerTest);
 
             Models.FileModel mock = new Models.FileModel();
             mock.name = this.className + "Mock";
-            String mockTemplate = templateHelper.wrapperTemplate;
+            //String mockTemplate = templateHelper.wrapperTemplate;
+            String mockTemplate = File.ReadAllText("../src/jsonapexgeneratorcore/Assets/mock.txt");
             mock.body = System.Text.Encoding.ASCII.GetBytes(replaceTemplate(mockTemplate));
             fileModels.Add(mock);
 

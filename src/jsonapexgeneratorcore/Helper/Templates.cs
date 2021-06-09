@@ -13,8 +13,8 @@ namespace JsonApexGeneratorCore.Helper
 
         public Templates()
         {
-            setWrapperTemplate();
-            setWrapperTestTemplate();
+            //setWrapperTemplate();
+            //setWrapperTestTemplate();
         }
 
         private void setWrapperTemplate() {
