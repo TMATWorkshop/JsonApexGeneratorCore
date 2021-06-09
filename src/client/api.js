@@ -9,11 +9,11 @@ function generateFiles(className, namedCredential, calloutMethod, requestJSON, r
 	const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ className: className,
-								namedCredential: namedCredential,
-								calloutMethod: calloutMethod,
-								requestJSON: requestJSON,
-								responseJSON: responseJSON })
+        body: JSON.stringify({ 'className': className,
+								'namedCredential': namedCredential,
+								'calloutMethod': calloutMethod,
+								'requestJSON': requestJSON,
+								'responseJSON': responseJSON })
     };
 	fetch('/api/apex/', requestOptions)
 		.then(handleErrors)
