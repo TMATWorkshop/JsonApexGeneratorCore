@@ -26,8 +26,6 @@ class App extends Component {
 	}
 
 	componentDidMount() {
-		api.getValues()
-			.then(items => this.setState({items}));
 	}
 
 	render() {
