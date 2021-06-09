@@ -11,13 +11,13 @@ namespace JsonApexGeneratorCore.Controllers
 	public class ApexController : ControllerBase
 	{
 		[HttpPost]
-		public IActionResult GenerateFiles([FromBody] String className, String namedCredential, String calloutMethod, String requestJSON, String responseJSON) {
-			Console.WriteLine("Params: " + className);
-			Console.WriteLine("Params: " + namedCredential);
-			Console.WriteLine("Params: " + calloutMethod);
-			Console.WriteLine("Params: " + requestJSON);
-			Console.WriteLine("Params: " + responseJSON);
-			Generator gen = new Generator(className, namedCredential, calloutMethod, requestJSON, responseJSON);
+		public IActionResult GenerateFiles([FromBody] RequestParams requestParams) {
+			Console.WriteLine("Params: " + requestParams.className);
+			Console.WriteLine("Params: " + requestParams.namedCredential);
+			Console.WriteLine("Params: " + requestParams.calloutMethod);
+			Console.WriteLine("Params: " + requestParams.requestJSON);
+			Console.WriteLine("Params: " + requestParams.responseJSON);
+			Generator gen = new Generator(requestParams.className, requestParams.namedCredential, requestParams.calloutMethod, requestParams.requestJSON, requestParams.responseJSON);
 			List<Models.FileModel> fileModels = gen.generateFiles();
 
 			//Compress to single Zip
@@ -38,7 +38,7 @@ namespace JsonApexGeneratorCore.Controllers
 					}
 				}
 
-				return new FileContentResult(compressedFileStream.ToArray(), "application/zip") { FileDownloadName = className + ".zip" };
+				return new FileContentResult(compressedFileStream.ToArray(), "application/zip") { FileDownloadName = requestParams.className + ".zip" };
 			}
 		}
 
@@ -52,6 +52,14 @@ namespace JsonApexGeneratorCore.Controllers
 
 			Byte[] pdfBytes = System.Text.Encoding.ASCII.GetBytes("public class test { }");
 			return new FileContentResult(pdfBytes, "text/plain");
+		}
+
+		public class RequestParams {
+			public String className { get; set; }
+			public String namedCredential { get; set; }
+			public String calloutMethod { get; set; }
+			public String requestJSON { get; set; }
+			public String responseJSON { get; set; }
 		}
 	}
 }
