@@ -14,7 +14,7 @@ public class {className}Mock implement HttpCalloutMock {
         }
 
         if (badResponse) {
-            json = '{ \"response\": "bad" }';
+            json = '{ \"response\": "invalid format" }';
         }
 
         HttpResponse response = new HttpResponse();
