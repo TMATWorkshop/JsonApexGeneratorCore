@@ -61,9 +61,9 @@ namespace JsonApexGeneratorCore.Helper {
             wrapper.name = this.className + "Wrapper";
 
             //Load File and Replace
-            //String wrapperTemplate = File.ReadAllText("Assets\\wrapper.txt");
-            Templates templateHelper = new Templates();
-            String wrapperTemplate = templateHelper.wrapperTemplate;
+            String wrapperTemplate = File.ReadAllText("wrapper.txt");
+            //Templates templateHelper = new Templates();
+            //String wrapperTemplate = templateHelper.wrapperTemplate;
             wrapper.body = System.Text.Encoding.ASCII.GetBytes(replaceTemplate(wrapperTemplate));
 
             fileModels.Add(wrapper);
@@ -80,7 +80,7 @@ namespace JsonApexGeneratorCore.Helper {
                     this.requestParamsWithType +=  ", ";
                     this.requestParams += ", ";
                 }
-                this.responseJSONWrapperVars += requestResults[i].variableDeclaration + Environment.NewLine;
+                this.requestJSONWrapperVars += requestResults[i].variableDeclaration + Environment.NewLine;
                 this.requestJSONWrapperVarsThis += requestResults[i].thisParameterization + Environment.NewLine;
             }
             List<JSONParseResult> responseResults = jsonToClass(this.responseJSON);
@@ -214,6 +214,7 @@ namespace JsonApexGeneratorCore.Helper {
             templateString = templateString.Replace("{requestJSONWrapperVarsThis}", this.requestJSONWrapperVarsThis);
             templateString = templateString.Replace("{responseJSON}", this.responseJSON);
             templateString = templateString.Replace("{responseJSONWrapperVars}", this.responseJSONWrapperVars);
+            templateString = templateString.Replace("{otherClasses}", "");
 
             return templateString;
         }

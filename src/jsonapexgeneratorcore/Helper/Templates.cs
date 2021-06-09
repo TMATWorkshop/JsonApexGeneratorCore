@@ -9,6 +9,10 @@ namespace JsonApexGeneratorCore.Helper
 
         public Templates()
         {
+            setWrapperTemplate();
+        }
+
+        private void setWrapperTemplate() {
             this.wrapperTemplate += "/* Class Generated with JSONApexGeneratorCore */" + Environment.NewLine;
             this.wrapperTemplate += "public class {className}Wrapper {" + Environment.NewLine;
             this.wrapperTemplate += "public class Request {" + Environment.NewLine;
