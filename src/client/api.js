@@ -5,13 +5,6 @@ function handleErrors(response) {
 	return response;
 }
 
-function getValues() {
-	return fetch('/api/apex')
-		.then(handleErrors)
-		.then(response => response.json())
-		.catch(err => alert(err));
-}
-
 function generateFiles(className, namedCredential, requestJSON, responseJSON) {
 	const requestOptions = {
         method: 'POST',
@@ -21,17 +14,14 @@ function generateFiles(className, namedCredential, requestJSON, responseJSON) {
 								requestJSON: requestJSON,
 								responseJSON: responseJSON })
     };
-	return fetch('/api/apex', requestOptions)
+	fetch('/api/apex/wrapper', requestOptions)
 		.then(handleErrors)
 		.then(r => r.blob())
 		.then(response => {
-			//console.log(response.body);
-			//console.log(JSON.stringify(response.body));
-			//console.log(JSON.parse(response.body));
 			const element = document.createElement("a");
 			const file = new Blob([response], {type: 'text/plain'});
 			element.href = URL.createObjectURL(file);
-			element.download = className + 'Handler.apxc';
+			element.download = className + 'Wrapper.apxc';
 			document.body.appendChild(element); // Required for this to work in FireFox
 			element.click();
 		})
@@ -39,5 +29,5 @@ function generateFiles(className, namedCredential, requestJSON, responseJSON) {
 }
 
 export default {
-	getValues,generateFiles
+	generateFiles
 };

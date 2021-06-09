@@ -9,7 +9,7 @@ public class {className}Wrapper {
     }
 
     public class Response {
-        {responseJSONVars}
+        {responseJSONWrapperVars}
     }
 
     {otherClasses}

@@ -42,10 +42,10 @@ public with sharing class {className}Handler {
         return responseWrapper;
     }
 
-    private static {wrapperClassName}.Response parseResponse(HttpResponse response) {
-        {wrapperClassName}.Response responseWrapper = new {wrapperClassName}.Response();
+    private static {className}Wrapper.Response parseResponse(HttpResponse response) {
+        {className}Wrapper.Response responseWrapper = new {className}Wrapper.Response();
         if (response != null && response.getStatusCode() == 200) {
-            responseWrapper = {wrapperClassName}.parseResponse(response.getBody());
+            responseWrapper = {className}Wrapper.parseResponse(response.getBody());
         }
         else {
             CalloutException e = (CalloutException)CalloutException.class.newInstance();
@@ -56,7 +56,7 @@ public with sharing class {className}Handler {
         return responseWrapper;
     }
 
-    private static {wrapperClassName}.Request generateRequest({requestParamsWithType}) {
-        return new {wrapperClassName}.Request({requestParams});
+    private static {className}Wrapper.Request generateRequest({requestParamsWithType}) {
+        return new {className}Wrapper.Request({requestParams});
     }
 }
