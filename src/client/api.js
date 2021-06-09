@@ -14,6 +14,19 @@ function generateFiles(className, namedCredential, requestJSON, responseJSON) {
 								requestJSON: requestJSON,
 								responseJSON: responseJSON })
     };
+	fetch('/api/apex/', requestOptions)
+		.then(handleErrors)
+		.then(r => r.blob())
+		.then(response => {
+			const element = document.createElement("a");
+			const file = new Blob([response], {type: 'application/zip'});
+			element.href = URL.createObjectURL(file);
+			element.download = className + '.zip';
+			document.body.appendChild(element); // Required for this to work in FireFox
+			element.click();
+		})
+		.catch(err => alert(err));
+	/*
 	fetch('/api/apex/wrapper', requestOptions)
 		.then(handleErrors)
 		.then(r => r.blob())
@@ -26,6 +39,7 @@ function generateFiles(className, namedCredential, requestJSON, responseJSON) {
 			element.click();
 		})
 		.catch(err => alert(err));
+		*/
 }
 
 export default {
