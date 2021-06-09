@@ -27,7 +27,7 @@ namespace JsonApexGeneratorCore.Controllers
 				using (var zipArchive = new ZipArchive(compressedFileStream, ZipArchiveMode.Create, false)) {
 					foreach (var fileModel in fileModels) {
 						//Create a zip entry for each attachment
-						var zipEntry = zipArchive.CreateEntry(fileModel.name);
+						var zipEntry = zipArchive.CreateEntry(fileModel.name + ".cls");
 
 						//Get the stream of the attachment
 						using (var originalFileStream = new MemoryStream(fileModel.body))
