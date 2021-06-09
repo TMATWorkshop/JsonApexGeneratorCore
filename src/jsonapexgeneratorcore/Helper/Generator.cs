@@ -66,6 +66,8 @@ namespace JsonApexGeneratorCore.Helper {
             String wrapperTemplate = templateHelper.wrapperTemplate;
             wrapper.body = System.Text.Encoding.ASCII.GetBytes(replaceTemplate(wrapperTemplate));
 
+            fileModels.Add(wrapper);
+
             return fileModels;
         }
 
