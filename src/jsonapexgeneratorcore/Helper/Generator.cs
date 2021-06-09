@@ -61,7 +61,7 @@ namespace JsonApexGeneratorCore.Helper {
             Models.FileModel wrapper = new Models.FileModel();
             wrapper.name = this.className + "Wrapper";
             //String wrapperTemplate = templateHelper.wrapperTemplate;
-            String wrapperTemplate = File.ReadAllText("src/jsonapexgeneratorcore/Assets/wrapper.txt");
+            String wrapperTemplate = File.ReadAllText("../src/jsonapexgeneratorcore/Assets/wrapper.txt");
             wrapper.body = System.Text.Encoding.ASCII.GetBytes(replaceTemplate(wrapperTemplate));
             fileModels.Add(wrapper);
 
