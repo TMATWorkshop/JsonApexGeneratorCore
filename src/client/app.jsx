@@ -11,40 +11,15 @@ import Parallax from "./components/Parallax/Parallax.js";
 import landingPageStyle from "./assets/jss/material-kit-react/views/components.js";
 
 // Sections for this page
-import FormPage from "./views/LandingPage/Sections/FormPage.js"
-import api from './api';
+import FormPage from "./views/LandingPage/Sections/FormPage.js";
 
 const dashboardRoutes = [];
 //export default class List extends Component {
 class App extends Component {
-	constructor(props) {
-		super(props);
-
-		this.state = {
-			items: []
-		};
-	}
-
-	componentDidMount() {
-	}
 
 	render() {
-		const {items} = this.state;
 		const { classes, ...rest } = this.props;
-		/*
-		return (
-			<div>
-				<h1>Values</h1>
-				{
-					items.map((item, index) => (
-						<li key={index} className="list-group-item">
-							{item}
-						</li>
-					))
-				}
-			</div>
-		);
-		*/
+
 		return (
 			<div>
 			  <Header
