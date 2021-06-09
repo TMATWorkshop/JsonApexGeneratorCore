@@ -11,7 +11,7 @@ namespace JsonApexGeneratorCore.Controllers
 	public class ApexController : ControllerBase
 	{
 		[HttpPost]
-		public IActionResult GenerateFiles(String className, String namedCredential, String calloutMethod, String requestJSON, String responseJSON) {
+		public IActionResult GenerateFiles([FromBody] String className, String namedCredential, String calloutMethod, String requestJSON, String responseJSON) {
 			Console.WriteLine("Params: " + className);
 			Console.WriteLine("Params: " + namedCredential);
 			Console.WriteLine("Params: " + calloutMethod);
