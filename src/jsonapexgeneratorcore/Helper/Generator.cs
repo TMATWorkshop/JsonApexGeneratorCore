@@ -68,7 +68,7 @@ namespace JsonApexGeneratorCore.Helper {
         }
 
         private void prepareVariables() {
-            List<JSONParseResult> requestResults = jsonToClass(requestJSON);
+            List<JSONParseResult> requestResults = jsonToClass(this.requestJSON);
             for (int i = 0; i < requestResults.Count; i++ ) {
                 this.requestParamsWithType += requestResults[i].parameterization;
                 this.requestParams += requestResults[i].paramName;
@@ -79,7 +79,7 @@ namespace JsonApexGeneratorCore.Helper {
                 this.responseJSONWrapperVars += requestResults[i].variableDeclaration + Environment.NewLine;
                 this.requestJSONWrapperVarsThis += requestResults[i].thisParameterization + Environment.NewLine;
             }
-            List<JSONParseResult> responseResults = jsonToClass(responseJSON);
+            List<JSONParseResult> responseResults = jsonToClass(this.responseJSON);
             for (int i = 0; i < responseResults.Count; i++ ) {
                 this.responseJSONWrapperVars += responseResults[i].thisParameterization + Environment.NewLine;
             }
