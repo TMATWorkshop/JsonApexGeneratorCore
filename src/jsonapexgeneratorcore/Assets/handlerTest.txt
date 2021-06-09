@@ -1,6 +1,6 @@
 /* Class Generated with JSONApexGeneratorCore */
 @IsTest
-public class {className}Test {
+public class {className}HandlerTest {
     @IsTest
     static void getResponse() {
         {className}Mock mockClass = new {className}Mock();

@@ -56,7 +56,6 @@ namespace JsonApexGeneratorCore.Helper {
 
         public List<Models.FileModel> generateFiles() {
             List<Models.FileModel> fileModels = new List<Models.FileModel>();
-            //Templates templateHelper = new Templates();
 
             Models.FileModel wrapper = new Models.FileModel();
             wrapper.name = this.className + "Wrapper";
@@ -66,28 +65,24 @@ namespace JsonApexGeneratorCore.Helper {
 
             Models.FileModel wrapperTest = new Models.FileModel();
             wrapperTest.name = this.className + "WrapperTest";
-            //String wrapperTestTemplate = templateHelper.wrapperTemplate;
             String wrapperTestTemplate = File.ReadAllText("../src/jsonapexgeneratorcore/Assets/wrapperTest.txt");
             wrapperTest.body = System.Text.Encoding.ASCII.GetBytes(replaceTemplate(wrapperTestTemplate));
             fileModels.Add(wrapperTest);
 
             Models.FileModel handler = new Models.FileModel();
             handler.name = this.className + "Handler";
-            //String handlerTemplate = templateHelper.wrapperTemplate;
             String handlerTemplate = File.ReadAllText("../src/jsonapexgeneratorcore/Assets/handler.txt");
             handler.body = System.Text.Encoding.ASCII.GetBytes(replaceTemplate(handlerTemplate));
             fileModels.Add(handler);
 
             Models.FileModel handlerTest = new Models.FileModel();
             handlerTest.name = this.className + "HandlerTest";
-            //String handlerTestTemplate = templateHelper.wrapperTemplate;
             String handlerTestTemplate = File.ReadAllText("../src/jsonapexgeneratorcore/Assets/handlerTest.txt");
             handlerTest.body = System.Text.Encoding.ASCII.GetBytes(replaceTemplate(handlerTestTemplate));
             fileModels.Add(handlerTest);
 
             Models.FileModel mock = new Models.FileModel();
             mock.name = this.className + "Mock";
-            //String mockTemplate = templateHelper.wrapperTemplate;
             String mockTemplate = File.ReadAllText("../src/jsonapexgeneratorcore/Assets/mock.txt");
             mock.body = System.Text.Encoding.ASCII.GetBytes(replaceTemplate(mockTemplate));
             fileModels.Add(mock);
@@ -233,10 +228,10 @@ namespace JsonApexGeneratorCore.Helper {
             templateString = templateString.Replace("{calloutMethod}", this.calloutMethod);
             templateString = templateString.Replace("{requestParamsWithType}", this.requestParamsWithType);
             templateString = templateString.Replace("{requestParams}", this.requestParams);
-            templateString = templateString.Replace("{requestJSON}", this.requestJSON);
+            templateString = templateString.Replace("{requestJSON}", this.requestJSON.Replace(Environment.NewLine, " "));
             templateString = templateString.Replace("{requestJSONWrapperVars}", this.requestJSONWrapperVars);
             templateString = templateString.Replace("{requestJSONWrapperVarsThis}", this.requestJSONWrapperVarsThis);
-            templateString = templateString.Replace("{responseJSON}", this.responseJSON);
+            templateString = templateString.Replace("{responseJSON}", this.responseJSON.Replace(Environment.NewLine, " "));
             templateString = templateString.Replace("{responseJSONWrapperVars}", this.responseJSONWrapperVars);
             templateString = templateString.Replace("{otherClasses}", "");
 
