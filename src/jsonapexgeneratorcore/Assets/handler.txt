@@ -1,0 +1,62 @@
+/* Class Generated with JSONApexGeneratorCore */
+public with sharing class {className}Handler {
+    public static final String NAMED_CREDENTIAL = '{namedCredential}';
+    public static final String CALLOUT_METHOD = '{calloutMethod}';
+    public static final String URL_EXTENSION = ''; //TODO: Add URL extension
+    public static final String ENDPOINT = 'callout:' + NAMED_CREDENTIAL + '/' + URL_EXTENSION;
+    
+    @future (callout=true)
+    public static void requestFuture({requestParamsWithType}) {
+        {className}Wrapper.Request requestWrapper = generateRequest({requestParams});
+        callout(requestWrapper);
+    }
+
+    public static void request({requestParamsWithType}) {
+        {className}Wrapper.Request requestWrapper = generateRequest({requestParams});
+        callout(requestWrapper);
+    }
+
+    private static {className}Wrapper.Response callout({className}Wrapper.Request requestWrapper) {
+        {className}Wrapper.Response responseWrapper = new {className}Wrapper.Response();
+        String requestBody = System.JSON.serialize(requestWrapper);
+
+        HttpResponse response;
+        try {
+            HttpRequest req = new HttpRequest();
+            req.setHeader('Accept', 'application/json');
+            req.setEndpoint(ENDPOINT);
+
+            if (CALLOUT_METHOD != 'GET') {
+                req.setBody(requestBody);
+            }
+
+            Http http = new Http();
+            HttpResponse response = http.send(req);
+            responseWrapper = parseResponse(response);
+            
+        }
+        catch (Exception e) {
+            //TODO: Add Exception Logging
+        }
+
+        return responseWrapper;
+    }
+
+    private static {wrapperClassName}.Response parseResponse(HttpResponse response) {
+        {wrapperClassName}.Response responseWrapper = new {wrapperClassName}.Response();
+        if (response != null && response.getStatusCode() == 200) {
+            responseWrapper = {wrapperClassName}.parseResponse(response.getBody());
+        }
+        else {
+            CalloutException e = (CalloutException)CalloutException.class.newInstance();
+            e.setMessage('Callout Exception for ' + ENDPOINT);
+            throw e;
+        }
+
+        return responseWrapper;
+    }
+
+    private static {wrapperClassName}.Request generateRequest({requestParamsWithType}) {
+        return new {wrapperClassName}.Request({requestParams});
+    }
+}

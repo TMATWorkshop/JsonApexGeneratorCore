@@ -1,0 +1,20 @@
+/* Class Generated with JSONApexGeneratorCore */
+public class {className}Wrapper {
+    public class Request {
+        {requestJSONWrapperVars}
+
+        public Request ({requestParams}) {
+            {requestJSONWrapperVarsThis}
+        }
+    }
+
+    public class Response {
+        {responseJSONVars}
+    }
+
+    {otherClasses}
+
+    public static Response parseResponse(String json) {
+        return (Response) System.JSON.deserialize(json, Response.class);
+    }
+}

@@ -1,0 +1,13 @@
+/* Class Generated with JSONApexGeneratorCore */
+@IsTest
+public class {className}WrapperTest {
+    @IsTest
+    static void testParse() {
+        String json = '{responseJSON}';
+
+        Test.startTest();
+        {className}Wrapper.Response obj = {className}Wrapper.parseResponse(json);
+        Test.stopTest();
+        System.assert(obj != null);
+    }
+}
