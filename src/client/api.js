@@ -22,7 +22,7 @@ function generateFiles(classNameParam, namedCredentialParam, calloutMethodParam,
 			const element = document.createElement("a");
 			const file = new Blob([response], {type: 'application/zip'});
 			element.href = URL.createObjectURL(file);
-			element.download = className + '.zip';
+			element.download = classNameParam + '.zip';
 			document.body.appendChild(element); // Required for this to work in FireFox
 			element.click();
 		})
