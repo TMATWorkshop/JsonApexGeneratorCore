@@ -32,3 +32,4 @@ namespace JsonApexGeneratorCore.Helper
             this.wrapperTemplate = "}" + Environment.NewLine;
         }
     }
+}
