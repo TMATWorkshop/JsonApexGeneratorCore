@@ -56,17 +56,38 @@ namespace JsonApexGeneratorCore.Helper {
 
         public List<Models.FileModel> generateFiles() {
             List<Models.FileModel> fileModels = new List<Models.FileModel>();
+            Templates templateHelper = new Templates();
 
             Models.FileModel wrapper = new Models.FileModel();
             wrapper.name = this.className + "Wrapper";
-
-            //Load File and Replace
-            String wrapperTemplate = File.ReadAllText("wrapper.txt");
-            //Templates templateHelper = new Templates();
             //String wrapperTemplate = templateHelper.wrapperTemplate;
+            String wrapperTemplate = File.ReadAllText("Assets/wrapper.txt");
             wrapper.body = System.Text.Encoding.ASCII.GetBytes(replaceTemplate(wrapperTemplate));
-
             fileModels.Add(wrapper);
+
+            Models.FileModel wrapperTest = new Models.FileModel();
+            wrapper.name = this.className + "WrapperTest";
+            String wrapperTestTemplate = templateHelper.wrapperTemplate;
+            wrapperTest.body = System.Text.Encoding.ASCII.GetBytes(replaceTemplate(wrapperTestTemplate));
+            fileModels.Add(wrapperTest);
+
+            Models.FileModel handler = new Models.FileModel();
+            handler.name = this.className + "Handler";
+            String handlerTemplate = templateHelper.wrapperTemplate;
+            handler.body = System.Text.Encoding.ASCII.GetBytes(replaceTemplate(handlerTemplate));
+            fileModels.Add(handler);
+
+            Models.FileModel handlerTest = new Models.FileModel();
+            handlerTest.name = this.className + "HandlerTest";
+            String handlerTestTemplate = templateHelper.wrapperTemplate;
+            handlerTest.body = System.Text.Encoding.ASCII.GetBytes(replaceTemplate(handlerTestTemplate));
+            fileModels.Add(handlerTest);
+
+            Models.FileModel mock = new Models.FileModel();
+            mock.name = this.className + "Mock";
+            String mockTemplate = templateHelper.wrapperTemplate;
+            mock.body = System.Text.Encoding.ASCII.GetBytes(replaceTemplate(mockTemplate));
+            fileModels.Add(mock);
 
             return fileModels;
         }
