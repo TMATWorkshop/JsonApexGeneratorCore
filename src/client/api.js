@@ -5,12 +5,13 @@ function handleErrors(response) {
 	return response;
 }
 
-function generateFiles(className, namedCredential, requestJSON, responseJSON) {
+function generateFiles(className, namedCredential, calloutMethod, requestJSON, responseJSON) {
 	const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ className: className,
 								namedCredential: namedCredential,
+								calloutMethod: calloutMethod,
 								requestJSON: requestJSON,
 								responseJSON: responseJSON })
     };
