@@ -1,6 +1,6 @@
 /* Class Generated with JSONApexGeneratorCore */
 @IsTest
-public class {className}Mock implement HttpCalloutMock {
+public class {className}Mock implements HttpCalloutMock {
     public Integer responseCode = 200;
     public Boolean emptyResponse = false;
     public Boolean badResponse = false;
