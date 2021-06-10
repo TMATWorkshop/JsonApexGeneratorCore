@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Text.Json;
-using System.Text.Encodings;
 using System.IO;
 
 namespace JsonApexGeneratorCore.Helper {
@@ -43,7 +42,14 @@ namespace JsonApexGeneratorCore.Helper {
         private String requestJSONWrapperVars = "";
         private String requestJSONWrapperVarsThis = "";
         private String responseJSONWrapperVars = "";
+        private String responseJSONExplicitParse = "";
         private String otherClasses = ""; //in next iteration
+        private Boolean usesStringArrayMethod = false;
+        private String stringArrayMethod = "";
+        private Boolean usesIntegerArrayMethod = false;
+        private String integerArrayMethod = "";
+        private Boolean usesDoubleArrayMethod = false;
+        private String doubleArrayMethod = "";
 
         public Generator(String className, String namedCredential, String calloutMethod, String requestJSON, String responseJSON) {
             this.className = className;
@@ -105,6 +111,22 @@ namespace JsonApexGeneratorCore.Helper {
             List<JSONParseResult> responseResults = jsonToClass(this.responseJSON);
             for (int i = 0; i < responseResults.Count; i++ ) {
                 this.responseJSONWrapperVars += responseResults[i].thisParameterization + Environment.NewLine;
+                if (i > 0) {
+                    this.responseJSONExplicitParse += "else ";
+                }
+                this.responseJSONExplicitParse += responseResults[i].explicitParse + Environment.NewLine;
+            }
+
+            if (usesDoubleArrayMethod) {
+                doubleArrayMethod = File.ReadAllText("../src/jsonapexgeneratorcore/Assets/doubleArrayMethod.txt");
+            }
+
+            if (usesIntegerArrayMethod) {
+                doubleArrayMethod = File.ReadAllText("../src/jsonapexgeneratorcore/Assets/integerArrayMethod.txt");
+            }
+
+            if (usesStringArrayMethod) {
+                doubleArrayMethod = File.ReadAllText("../src/jsonapexgeneratorcore/Assets/stringArrayMethod.txt");
             }
         }
 
@@ -146,6 +168,7 @@ namespace JsonApexGeneratorCore.Helper {
                     result.variableDeclaration = "String " + propertyName + " { get; set; }";
                     result.parameterization = "String " + propertyName;
                     result.thisParameterization = "this." + propertyName + " = " + propertyName + ";";
+                    result.explicitParse = "if (text == '" + property.Name + "') { " + propertyName + " = parser.getText(); }"; 
                     result.parsed = true;
                     break;
                 case JsonValueKind.Number:
@@ -153,12 +176,14 @@ namespace JsonApexGeneratorCore.Helper {
                         result.variableDeclaration = "Decimal " + propertyName + " { get; set; }";
                         result.parameterization = "Decimal " + propertyName;
                         result.thisParameterization = "this." + propertyName + " = " + propertyName + ";";
+                        result.explicitParse = "if (text == '" + property.Name + "') { " + propertyName + " = parser.getDoubleValue(); }";
                         result.parsed = true;
                     }
                     else {
                         result.variableDeclaration = "Integer " + propertyName + " { get; set; }";
                         result.parameterization = "Integer " + propertyName;
                         result.thisParameterization = "this." + propertyName + " = " + propertyName + ";";
+                        result.explicitParse = "if (text == '" + property.Name + "') { " + propertyName + " = parser.getIntegerValue(); }";
                         result.parsed = true;
                     }
                     break;
@@ -167,22 +192,28 @@ namespace JsonApexGeneratorCore.Helper {
                         foreach (JsonElement arrayValue in property.Value.EnumerateArray()) {
                             switch (arrayValue.ValueKind) {
                                 case JsonValueKind.String:
+                                    this.usesStringArrayMethod = true;
                                     result.variableDeclaration = "List<String> " + propertyName + " { get; set; }";
                                     result.parameterization = "List<String> " + propertyName;
                                     result.thisParameterization = "this." + propertyName + " = " + propertyName + ";";
+                                    result.explicitParse = "if (text == '" + property.Name + "') { " + propertyName + " = arrayOfString(parser); ); }";
                                     result.parsed = true;
                                     break;
                                 case JsonValueKind.Number:
                                     if (arrayValue.ToString().Contains(".")) {
+                                        this.usesDoubleArrayMethod = true;
                                         result.variableDeclaration = "List<Decimal> " + propertyName + " { get; set; }";
                                         result.parameterization = "List<Decimal> " + propertyName;
                                         result.thisParameterization = "this." + propertyName + " = " + propertyName + ";";
+                                    result.explicitParse = "if (text == '" + property.Name + "') { " + propertyName + " = arrayOfDouble(parser); ); }";
                                         result.parsed = true;
                                     }
                                     else {
+                                        this.usesIntegerArrayMethod = true;
                                         result.variableDeclaration = "List<Integer> " + propertyName + " { get; set; }";
                                         result.parameterization = "List<Integer> " + propertyName;
                                         result.thisParameterization = "this." + propertyName + " = " + propertyName + ";";
+                                        result.explicitParse = "if (text == '" + property.Name + "') { " + propertyName + " = arrayOfInteger(parser); ); }";
                                         result.parsed = true;
                                     }
                                     break;
@@ -191,9 +222,11 @@ namespace JsonApexGeneratorCore.Helper {
                         }
                     }
                     else {
+                        this.usesStringArrayMethod = true;
                         result.variableDeclaration = "List<String> " + propertyName + " { get; set; }";
                         result.parameterization = "List<String> " + propertyName;
                         result.thisParameterization = "this." + propertyName + " = " + propertyName + ";";
+                        result.explicitParse = "if (text == '" + property.Name + "') { " + propertyName + " = arrayOfString(parser); ); }";
                         result.parsed = true;
                     }
                     break;
@@ -201,12 +234,14 @@ namespace JsonApexGeneratorCore.Helper {
                     result.variableDeclaration =  "Boolean " + propertyName + " { get; set; }";
                     result.parameterization = "Boolean " + propertyName;
                     result.thisParameterization = "this." + propertyName + " = " + propertyName + ";";
+                    result.explicitParse = "if (text == '" + property.Name + "') { " + propertyName + " = parser.getBooleanValue(); }";
                     result.parsed = true;
                     break;
                 case JsonValueKind.False:
                     result.variableDeclaration =  "Boolean " + propertyName + " { get; set; }";
                     result.parameterization = "Boolean " + propertyName;
                     result.thisParameterization = "this." + propertyName + " = " + propertyName + ";";
+                    result.explicitParse = "if (text == '" + property.Name + "') { " + propertyName + " = parser.getBooleanValue(); }";
                     result.parsed = true;
                     break;
                 case JsonValueKind.Object:
@@ -233,8 +268,26 @@ namespace JsonApexGeneratorCore.Helper {
             templateString = templateString.Replace("{requestJSONWrapperVarsThis}", this.requestJSONWrapperVarsThis);
             templateString = templateString.Replace("{responseJSON}", this.responseJSON.Replace(Environment.NewLine, " "));
             templateString = templateString.Replace("{responseJSONWrapperVars}", this.responseJSONWrapperVars);
-            templateString = templateString.Replace("{otherClasses}", "");
+            templateString = templateString.Replace("{parseCode}", this.responseJSONExplicitParse);
+            String arrayMethod = "";
+            if (usesDoubleArrayMethod) {
+                arrayMethod += doubleArrayMethod + Environment.NewLine + Environment.NewLine;
+            }
+            if (usesIntegerArrayMethod) {
+                arrayMethod += integerArrayMethod + Environment.NewLine + Environment.NewLine;
+            }
+            if (usesStringArrayMethod) {
+                arrayMethod += stringArrayMethod + Environment.NewLine + Environment.NewLine;
 
+            }
+            if (arrayMethod.Length > 0) {
+                templateString = templateString.Replace("{arrayMethods}", arrayMethod);
+            }
+            else {
+                templateString = templateString.Replace("{arrayMethods}", "");
+            }
+
+            templateString = templateString.Replace("{otherClasses}", "");
             return templateString;
         }
 
@@ -250,6 +303,7 @@ namespace JsonApexGeneratorCore.Helper {
             public String variableDeclaration;
             public String parameterization;
             public String thisParameterization;
+            public String explicitParse;
             public Boolean parsed = false;
 
             public JSONParseResult (String paramName) {

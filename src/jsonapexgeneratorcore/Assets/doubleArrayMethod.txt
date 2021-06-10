@@ -1,0 +1,8 @@
+private static List<Double> arrayOfDouble(System.JSONParser p) {
+    List<Double> res = new List<Double>();
+    if (p.getCurrentToken() == null) p.nextToken();
+    while (p.nextToken() != System.JSONToken.END_ARRAY) {
+        res.add(p.getDoubleValue());
+    }
+    return res;
+}

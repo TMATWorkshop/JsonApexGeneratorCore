@@ -1,0 +1,8 @@
+private static List<String> arrayOfString(System.JSONParser p) {
+    List<String> res = new List<String>();
+    if (p.getCurrentToken() == null) p.nextToken();
+    while (p.nextToken() != System.JSONToken.END_ARRAY) {
+        res.add(p.getText());
+    }
+    return res;
+}
