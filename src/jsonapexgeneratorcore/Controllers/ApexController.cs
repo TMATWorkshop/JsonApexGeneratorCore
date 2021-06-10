@@ -3,7 +3,6 @@ using System.IO;
 using System.IO.Compression;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using JsonApexGeneratorCore.Models;
 using JsonApexGeneratorCore.Helper;
 namespace JsonApexGeneratorCore.Controllers
 {
@@ -18,15 +17,24 @@ namespace JsonApexGeneratorCore.Controllers
 			//Compress to single Zip
 			using (var compressedFileStream = new MemoryStream())
 			{
+				Byte[] metaTemplate = System.IO.File.ReadAllBytes("../src/jsonapexgeneratorcore/Assets/meta.txt");
 				//Create an archive and store the stream in memory.
 				using (var zipArchive = new ZipArchive(compressedFileStream, ZipArchiveMode.Create, false)) {
 					foreach (var fileModel in fileModels) {
-						//Create a zip entry for each attachment
+						//Create a zip entry for class
 						var zipEntry = zipArchive.CreateEntry(fileModel.name + ".cls");
-
 						//Get the stream of the attachment
 						using (var originalFileStream = new MemoryStream(fileModel.body))
 						using (var zipEntryStream = zipEntry.Open()) {
+							//Copy the attachment stream to the zip entry stream
+							originalFileStream.CopyTo(zipEntryStream);
+						}
+						
+						//Create a zip entry for meta of class
+						var zipEntryMeta = zipArchive.CreateEntry(fileModel.name + ".cls-meta.xml");
+						//Get the stream of the attachment
+						using (var originalFileStream = new MemoryStream(metaTemplate))
+						using (var zipEntryStream = zipEntryMeta.Open()) {
 							//Copy the attachment stream to the zip entry stream
 							originalFileStream.CopyTo(zipEntryStream);
 						}
