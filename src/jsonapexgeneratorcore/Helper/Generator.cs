@@ -110,7 +110,7 @@ namespace JsonApexGeneratorCore.Helper {
             }
             List<JSONParseResult> responseResults = jsonToClass(this.responseJSON);
             for (int i = 0; i < responseResults.Count; i++ ) {
-                this.responseJSONWrapperVars += responseResults[i].thisParameterization + Environment.NewLine;
+                this.responseJSONWrapperVars += responseResults[i].variableDeclaration + Environment.NewLine;
                 if (i > 0) {
                     this.responseJSONExplicitParse += "else ";
                 }
