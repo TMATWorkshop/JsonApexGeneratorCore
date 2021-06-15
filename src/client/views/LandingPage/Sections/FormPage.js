@@ -110,7 +110,7 @@ class FormPage extends React.Component {
     return (
       <div className={classes.section}>
         <div>
-          <GridContainer>
+          <GridContainer spacing={1}>
             <GridItem xs={12} sm={12} md={12}>
               <InfoArea
                 title="Properties"
@@ -120,8 +120,6 @@ class FormPage extends React.Component {
                 vertical
               />
               </GridItem>
-            </GridContainer>
-              <GridContainer>
                 <GridItem xs={12} sm={6} md={6}>
                   <TextField
                     id="txtClassName"
@@ -148,8 +146,6 @@ class FormPage extends React.Component {
                     <option value="POST">POST</option>
                   </NativeSelect>
                 </GridItem>
-              </GridContainer>
-              <GridContainer>
                 <GridItem xs={12} sm={6} md={6}>
                   <TextField
                     id="txtNamedCredential"
@@ -176,8 +172,6 @@ class FormPage extends React.Component {
                     error={this.state.urlExtensionError}
                 />
                 </GridItem>
-              </GridContainer>
-              <GridContainer>
                 <GridItem xs={12}>
                   <Button 
                     variant="contained"
@@ -186,7 +180,7 @@ class FormPage extends React.Component {
                     Generate Apex Files
                   </Button>
                 </GridItem>
-              </GridContainer>
+          </GridContainer>
           <GridContainer>
             <GridItem xs={12} sm={12} md={6}>
               <InfoArea
@@ -247,15 +241,15 @@ class FormPage extends React.Component {
           </GridContainer>
         </div>
         <GridContainer justify="center">
-          <GridItem xs={12} sm={12} md={8}>
+          <GridItem xs={12} sm={12} md={12}>
             <h3 className={classes.title}>Usage</h3>
-            <h5 className={classes.description}>
-              <ol>
-                <li>Enter a value for all the fields</li>
-                <li>Click on "Generate Apex Files"</li>
-                <li>Extract the zip file and copy the contents to the classes folder of your SFDX project or copy the contents of the .cls files to your Developer Console</li>                
-              </ol>
-            </h5>
+          </GridItem>
+          <GridItem xs={12} sm={12} md={12}>
+                  <p>1.) Enter a value for all the fields</p>
+                  <p> 2.) Click on "Generate Apex Files"</p>
+                  <p>3.) Extract the zip file and copy the contents to the classes folder of your SFDX project 
+                  <br /> --or-- <br /> 
+                  copy the contents of the .cls files to your Developer Console</p>    
           </GridItem>
         </GridContainer>
       </div>
