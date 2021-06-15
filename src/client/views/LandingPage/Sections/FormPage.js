@@ -88,10 +88,20 @@ class FormPage extends React.Component {
   }
 
   generateFiles(event) {
-    validateResponseJSON(event);
-    validateRequestJSON(event);
-    if (this.state.responseJSONValid && this.state.requestJSONValid) {
+    this.validateResponseJSON(event);
+    this.validateRequestJSON(event);
+    if (this.state.responseJSONValid && 
+        this.state.requestJSONValid && 
+        this.state.className.length > 0 &&
+        this.state.namedCredential.length > 0 &&
+        this.state.urlExtension.length > 0 &&
+        this.state.requestType.length > 0 &&
+        this.state.requestJSON.length > 0 &&
+        this.state.responseJSON.length > 0) {
       api.generateFiles(this.state.className, this.state.namedCredential, this.state.urlExtension, this.state.requestType, this.state.requestJSON, this.state.responseJSON);
+    }
+    else {
+      alert('Please check your input');
     }
   }
 
