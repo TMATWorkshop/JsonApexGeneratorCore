@@ -45,18 +45,6 @@ namespace JsonApexGeneratorCore.Controllers
 			}
 		}
 
-
-		[HttpPost]
-		[Route("wrapper")]
-		public IActionResult GenerateWrapper(String className, String namedCredential, String requestJSON, String responseJSON)
-		{
-
-
-
-			Byte[] pdfBytes = System.Text.Encoding.ASCII.GetBytes("public class test { }");
-			return new FileContentResult(pdfBytes, "text/plain");
-		}
-
 		public class RequestParams {
 			public String className { get; set; }
 			public String namedCredential { get; set; }
