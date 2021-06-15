@@ -27,6 +27,9 @@ class FormPage extends React.Component {
     this.state = {className: '', 
                   classNameMsg: 'Enter Class Name prefix',
                   classNameError: false,
+                  urlExtension: '', 
+                  urlExtensionMsg: 'Enter URL Extension after Named credential',
+                  urlExtensionError: false,
                   namedCredential: '', 
                   namedCredentialMsg: 'Enter Named Credential API Name',
                   namedCredentialError: false,
@@ -37,7 +40,8 @@ class FormPage extends React.Component {
                   responseJSON: '',
                   responseJSONErrorMsg: '',
                   responseJSONError: false,
-
+                  requestJSONValid: false,
+                  responseJSONValid: false
                 };
 
     this.handleChange = this.handleChange.bind(this);
@@ -53,16 +57,17 @@ class FormPage extends React.Component {
   }
 
   validateRequestJSON(event) {
-    console.log('validateJSON');
     try {
       var jsonObj = JSON.parse(this.state.requestJSON);
       var prettyJSON = JSON.stringify(jsonObj, undefined, 2);
       this.setState({requestJSON: prettyJSON }); 
       this.setState({ requestJSONErrorMsg : '', requestJSONError : false });
+      this.setState({ requestJSONValid : true });
     }
     catch (err) {
       console.log(err);
       this.setState({ requestJSONErrorMsg : err.message, requestJSONError : true });
+      this.setState({ requestJSONValid : false });
     }
   }
 
@@ -72,16 +77,22 @@ class FormPage extends React.Component {
       var prettyJSON = JSON.stringify(jsonObj, undefined, 2);
       this.setState({responseJSON: prettyJSON });
       this.setState({ responseJSONErrorMsg : '', responseJSONError : false });
+      this.setState({ responseJSONValid : true });
     }
     catch (err) {
       //Highlight Error in JSON file
       console.log(err.message);
       this.setState({ responseJSONErrorMsg : err.message, responseJSONError : true });
+      this.setState({ responseJSONValid : false });
     }
   }
 
   generateFiles(event) {
-    api.generateFiles(this.state.className, this.state.namedCredential, this.state.requestType, this.state.requestJSON, this.state.responseJSON);
+    validateResponseJSON(event);
+    validateRequestJSON(event);
+    if (this.state.responseJSONValid && this.state.requestJSONValid) {
+      api.generateFiles(this.state.className, this.state.namedCredential, this.state.urlExtension, this.state.requestType, this.state.requestJSON, this.state.responseJSON);
+    }
   }
 
   render() {
@@ -99,7 +110,7 @@ class FormPage extends React.Component {
                 vertical
               />
               <GridContainer>
-                <GridItem xs={12} sm={6} md={4}>
+                <GridItem xs={12} sm={6} md={6}>
                   <TextField
                     id="txtClassName"
                     name="className"
@@ -112,7 +123,20 @@ class FormPage extends React.Component {
                     error={this.state.classNameError}
                   />
                 </GridItem>
-                <GridItem xs={12} sm={6} md={4}>
+                <GridItem xs={12} sm={6} md={6}>
+                  <InputLabel htmlFor="ddlRequestType">Request Type</InputLabel>
+                  <NativeSelect
+                    id="ddlRequestType"
+                    fullWidth
+                    variant="outlined"
+                    value={this.state.requestType}
+                    onChange={this.handleChange}
+                    required
+                  >
+                    <option value="POST">POST</option>
+                  </NativeSelect>
+                </GridItem>
+                <GridItem xs={12} sm={6} md={6}>
                   <TextField
                     id="txtNamedCredential"
                     name="namedCredential"
@@ -125,18 +149,18 @@ class FormPage extends React.Component {
                     error={this.state.namedCredentialError}
                 />
                 </GridItem>
-                <GridItem xs={12} sm={6} md={4}>
-                  <InputLabel htmlFor="ddlRequestType">Request Type</InputLabel>
-                  <NativeSelect
-                    id="ddlRequestType"
-                    fullWidth
+                <GridItem xs={12} sm={6} md={6}>
+                  <TextField
+                    id="txtURLExtension"
+                    name="urlExtension"
+                    label={this.state.urlExtensionMsg}
                     variant="outlined"
-                    value={this.state.requestType}
+                    fullWidth
+                    value={this.state.urlExtension}
                     onChange={this.handleChange}
                     required
-                  >
-                    <option value="POST">POST</option>
-                  </NativeSelect>
+                    error={this.state.urlExtensionError}
+                />
                 </GridItem>
                 <GridItem xs={12}>
                   <Button 

@@ -34,6 +34,7 @@ namespace JsonApexGeneratorCore.Helper {
         //Handler
         private String className = "";
         private String namedCredential = "";
+        private String urlExtension = "";
         private String calloutMethod = "POST";
         private String requestJSON = "";
         private String responseJSON = "";
@@ -51,12 +52,13 @@ namespace JsonApexGeneratorCore.Helper {
         private Boolean usesDoubleArrayMethod = false;
         private String doubleArrayMethod = "";
 
-        public Generator(String className, String namedCredential, String calloutMethod, String requestJSON, String responseJSON) {
+        public Generator(String className, String namedCredential, String urlExtension, String calloutMethod, String requestJSON, String responseJSON) {
             this.className = className;
             this.namedCredential = namedCredential;
             this.calloutMethod = calloutMethod;
             this.requestJSON = requestJSON;
             this.responseJSON = responseJSON;
+            this.urlExtension = urlExtension;
             prepareVariables();
         }
 
@@ -269,6 +271,7 @@ namespace JsonApexGeneratorCore.Helper {
             templateString = templateString.Replace("{responseJSON}", this.responseJSON.Replace(Environment.NewLine, " "));
             templateString = templateString.Replace("{responseJSONWrapperVars}", this.responseJSONWrapperVars);
             templateString = templateString.Replace("{parseCode}", this.responseJSONExplicitParse);
+            templateString = templateString.Replace("{urlExtension}", this.urlExtension);
             String arrayMethod = "";
             if (usesDoubleArrayMethod) {
                 arrayMethod += doubleArrayMethod + Environment.NewLine + Environment.NewLine;

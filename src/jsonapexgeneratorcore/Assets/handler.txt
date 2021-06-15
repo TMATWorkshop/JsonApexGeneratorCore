@@ -2,7 +2,7 @@
 public with sharing class {className}Handler {
     public static final String NAMED_CREDENTIAL = '{namedCredential}';
     public static final String CALLOUT_METHOD = '{calloutMethod}';
-    public static final String URL_EXTENSION = ''; //TODO: Add URL extension
+    public static final String URL_EXTENSION = '{urlExtension}'; 
     public static final String ENDPOINT = 'callout:' + NAMED_CREDENTIAL + '/' + URL_EXTENSION;
     
     @future (callout=true)

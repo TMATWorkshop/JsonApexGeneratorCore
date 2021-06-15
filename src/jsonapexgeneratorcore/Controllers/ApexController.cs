@@ -11,7 +11,7 @@ namespace JsonApexGeneratorCore.Controllers
 	{
 		[HttpPost]
 		public IActionResult GenerateFiles([FromBody] RequestParams requestParams) {
-			Generator gen = new Generator(requestParams.className, requestParams.namedCredential, requestParams.calloutMethod, requestParams.requestJSON, requestParams.responseJSON);
+			Generator gen = new Generator(requestParams.className, requestParams.namedCredential, requestParams.urlExtension, requestParams.calloutMethod, requestParams.requestJSON, requestParams.responseJSON);
 			List<Models.FileModel> fileModels = gen.generateFiles();
 
 			//Compress to single Zip
@@ -51,6 +51,7 @@ namespace JsonApexGeneratorCore.Controllers
 			public String calloutMethod { get; set; }
 			public String requestJSON { get; set; }
 			public String responseJSON { get; set; }
+			public String urlExtension { get; set; }
 		}
 	}
 }

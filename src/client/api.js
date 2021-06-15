@@ -5,7 +5,7 @@ function handleErrors(response) {
 	return response;
 }
 
-function generateFiles(classNameParam, namedCredentialParam, calloutMethodParam, requestJSONParam, responseJSONParam) {
+function generateFiles(classNameParam, namedCredentialParam, urlExtensionParam, calloutMethodParam, requestJSONParam, responseJSONParam) {
 	const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -13,7 +13,8 @@ function generateFiles(classNameParam, namedCredentialParam, calloutMethodParam,
 								namedCredential: namedCredentialParam,
 								calloutMethod: calloutMethodParam,
 								requestJSON: requestJSONParam,
-								responseJSON: responseJSONParam })
+								responseJSON: responseJSONParam,
+								urlExtension: urlExtensionParam })
     };
 	fetch('/api/apex/', requestOptions)
 		.then(handleErrors)
