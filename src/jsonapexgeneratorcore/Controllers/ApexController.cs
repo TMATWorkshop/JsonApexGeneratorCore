@@ -10,8 +10,8 @@ namespace JsonApexGeneratorCore.Controllers
 	public class ApexController : ControllerBase
 	{
 
-        //private String ASSETPATH = "../src/jsonapexgeneratorcore/Assets/"; //Heroku
-        private String ASSETPATH = "../jsonapexgeneratorcore/Assets/"; //Local
+        private String ASSETPATH = "../src/jsonapexgeneratorcore/Assets/"; //Heroku
+        //private String ASSETPATH = "../jsonapexgeneratorcore/Assets/"; //Local
 
 		[HttpPost]
 		public IActionResult GenerateFiles([FromBody] RequestParams requestParams) {
