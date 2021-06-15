@@ -146,6 +146,8 @@ class FormPage extends React.Component {
                     <option value="POST">POST</option>
                   </NativeSelect>
                 </GridItem>
+              </GridContainer>
+              <GridContainer>
                 <GridItem xs={12} sm={6} md={6}>
                   <TextField
                     id="txtNamedCredential"
@@ -172,6 +174,8 @@ class FormPage extends React.Component {
                     error={this.state.urlExtensionError}
                 />
                 </GridItem>
+              </GridContainer>
+              <GridContainer>
                 <GridItem xs={12}>
                   <Button 
                     variant="contained"
