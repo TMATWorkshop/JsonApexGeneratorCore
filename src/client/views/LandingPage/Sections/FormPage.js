@@ -246,7 +246,11 @@ class FormPage extends React.Component {
           <GridItem xs={12} sm={12} md={8}>
             <h3 className={classes.title}>Usage</h3>
             <h5 className={classes.description}>
-              Add Instructions on usage here
+              <ol>
+                <li>Enter a value for all the fields</li>
+                <li>Click on "Generate Apex Files"</li>
+                <li>Extract the zip file and copy the contents to the classes folder of your SFDX project or copy the contents of the .cls files to your Developer Console</li>                
+              </ol>
             </h5>
           </GridItem>
         </GridContainer>
