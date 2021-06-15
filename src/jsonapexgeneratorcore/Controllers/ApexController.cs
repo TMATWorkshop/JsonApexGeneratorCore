@@ -9,15 +9,19 @@ namespace JsonApexGeneratorCore.Controllers
 	[Route("api/[controller]")]
 	public class ApexController : ControllerBase
 	{
+
+        //private String ASSETPATH = "../src/jsonapexgeneratorcore/Assets/"; //Heroku
+        private String ASSETPATH = "../jsonapexgeneratorcore/Assets/"; //Local
+
 		[HttpPost]
 		public IActionResult GenerateFiles([FromBody] RequestParams requestParams) {
-			Generator gen = new Generator(requestParams.className, requestParams.namedCredential, requestParams.urlExtension, requestParams.calloutMethod, requestParams.requestJSON, requestParams.responseJSON);
+			Generator gen = new Generator(ASSETPATH, requestParams.className, requestParams.namedCredential, requestParams.urlExtension, requestParams.calloutMethod, requestParams.requestJSON, requestParams.responseJSON);
 			List<Models.FileModel> fileModels = gen.generateFiles();
 
 			//Compress to single Zip
 			using (var compressedFileStream = new MemoryStream())
 			{
-				Byte[] metaTemplate = System.IO.File.ReadAllBytes("../src/jsonapexgeneratorcore/Assets/meta.txt");
+				Byte[] metaTemplate = System.IO.File.ReadAllBytes(ASSETPATH + "meta.txt");
 				//Create an archive and store the stream in memory.
 				using (var zipArchive = new ZipArchive(compressedFileStream, ZipArchiveMode.Create, false)) {
 					foreach (var fileModel in fileModels) {

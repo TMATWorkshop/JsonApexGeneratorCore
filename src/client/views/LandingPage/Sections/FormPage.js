@@ -88,6 +88,7 @@ class FormPage extends React.Component {
   }
 
   generateFiles(event) {
+    /*
     this.validateResponseJSON(event);
     this.validateRequestJSON(event);
     if (this.state.responseJSONValid && 
@@ -103,6 +104,8 @@ class FormPage extends React.Component {
     else {
       alert('Please check your input');
     }
+    */
+    api.generateFiles(this.state.className, this.state.namedCredential, this.state.urlExtension, this.state.requestType, this.state.requestJSON, this.state.responseJSON);
   }
 
   render() {

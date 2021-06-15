@@ -1,11 +1,14 @@
 using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using System.Text.Json;
 using System.IO;
 using System.Globalization;
 
 namespace JsonApexGeneratorCore.Helper {
     public class Generator {
+
+        private String ASSETPATH = ""; //Local
         //JSON to Variable Conversion
         //Handle Reserved Words
         public List<String> reservedWords = new List<String>() { 
@@ -54,7 +57,8 @@ namespace JsonApexGeneratorCore.Helper {
         private String doubleArrayMethod = "";
         private TextInfo enUS = new CultureInfo("en-US",false).TextInfo;
 
-        public Generator(String className, String namedCredential, String urlExtension, String calloutMethod, String requestJSON, String responseJSON) {
+        public Generator(String assetPath, String className, String namedCredential, String urlExtension, String calloutMethod, String requestJSON, String responseJSON) {
+            this.ASSETPATH = assetPath;
             this.className = className;
             this.namedCredential = namedCredential;
             this.calloutMethod = calloutMethod;
@@ -70,31 +74,31 @@ namespace JsonApexGeneratorCore.Helper {
 
             Models.FileModel wrapper = new Models.FileModel();
             wrapper.name = this.className + "Wrapper";
-            String wrapperTemplate = File.ReadAllText("../src/jsonapexgeneratorcore/Assets/wrapper.txt");
+            String wrapperTemplate = File.ReadAllText(ASSETPATH + "wrapper.txt");
             wrapper.body = System.Text.Encoding.ASCII.GetBytes(replaceTemplate(wrapperTemplate));
             fileModels.Add(wrapper);
 
             Models.FileModel wrapperTest = new Models.FileModel();
             wrapperTest.name = this.className + "WrapperTest";
-            String wrapperTestTemplate = File.ReadAllText("../src/jsonapexgeneratorcore/Assets/wrapperTest.txt");
+            String wrapperTestTemplate = File.ReadAllText(ASSETPATH + "wrapperTest.txt");
             wrapperTest.body = System.Text.Encoding.ASCII.GetBytes(replaceTemplate(wrapperTestTemplate));
             fileModels.Add(wrapperTest);
 
             Models.FileModel handler = new Models.FileModel();
             handler.name = this.className + "Handler";
-            String handlerTemplate = File.ReadAllText("../src/jsonapexgeneratorcore/Assets/handler.txt");
+            String handlerTemplate = File.ReadAllText(ASSETPATH + "handler.txt");
             handler.body = System.Text.Encoding.ASCII.GetBytes(replaceTemplate(handlerTemplate));
             fileModels.Add(handler);
 
             Models.FileModel handlerTest = new Models.FileModel();
             handlerTest.name = this.className + "HandlerTest";
-            String handlerTestTemplate = File.ReadAllText("../src/jsonapexgeneratorcore/Assets/handlerTest.txt");
+            String handlerTestTemplate = File.ReadAllText(ASSETPATH + "handlerTest.txt");
             handlerTest.body = System.Text.Encoding.ASCII.GetBytes(replaceTemplate(handlerTestTemplate));
             fileModels.Add(handlerTest);
 
             Models.FileModel mock = new Models.FileModel();
             mock.name = this.className + "Mock";
-            String mockTemplate = File.ReadAllText("../src/jsonapexgeneratorcore/Assets/mock.txt");
+            String mockTemplate = File.ReadAllText(ASSETPATH + "mock.txt");
             mock.body = System.Text.Encoding.ASCII.GetBytes(replaceTemplate(mockTemplate));
             fileModels.Add(mock);
 
@@ -102,7 +106,7 @@ namespace JsonApexGeneratorCore.Helper {
         }
 
         private void prepareVariables() {
-            String requestSubClassTemplate = File.ReadAllText("../src/jsonapexgeneratorcore/Assets/requestsubclass.txt");
+            String requestSubClassTemplate = File.ReadAllText(ASSETPATH + "requestsubclass.txt");
             List<JSONPropertyParseResult> requestResults = jsonToClass(this.requestJSON, JSONType.Request);
             for (int i = 0; i < requestResults.Count; i++ ) {
                 this.requestParamsWithType += requestResults[i].parameterization;
@@ -114,7 +118,7 @@ namespace JsonApexGeneratorCore.Helper {
                 this.requestJSONWrapperVars += requestResults[i].variableDeclaration + Environment.NewLine;
                 this.requestJSONWrapperVarsThis += requestResults[i].thisParameterization + Environment.NewLine;
             }
-            String responseSubClassTemplate = File.ReadAllText("../src/jsonapexgeneratorcore/Assets/responsesubclass.txt");
+            String responseSubClassTemplate = File.ReadAllText(ASSETPATH + "responsesubclass.txt");
             List<JSONPropertyParseResult> responseResults = jsonToClass(this.responseJSON, JSONType.Response);
             for (int i = 0; i < responseResults.Count; i++ ) {
                 this.responseJSONWrapperVars += responseResults[i].variableDeclaration + Environment.NewLine;
@@ -127,15 +131,15 @@ namespace JsonApexGeneratorCore.Helper {
 
         private void loadArrayMethods() {
             if (this.usesDoubleArrayMethod) {
-                this.doubleArrayMethod = File.ReadAllText("../src/jsonapexgeneratorcore/Assets/doubleArrayMethod.txt");
+                this.doubleArrayMethod = File.ReadAllText(ASSETPATH + "doubleArrayMethod.txt");
             }
 
             if (this.usesIntegerArrayMethod) {
-                this.doubleArrayMethod = File.ReadAllText("../src/jsonapexgeneratorcore/Assets/integerArrayMethod.txt");
+                this.doubleArrayMethod = File.ReadAllText(ASSETPATH + "integerArrayMethod.txt");
             }
 
             if (this.usesStringArrayMethod) {
-                this.doubleArrayMethod = File.ReadAllText("../src/jsonapexgeneratorcore/Assets/stringArrayMethod.txt");
+                this.doubleArrayMethod = File.ReadAllText(ASSETPATH + "stringArrayMethod.txt");
             }
         }
 
@@ -144,10 +148,10 @@ namespace JsonApexGeneratorCore.Helper {
             List<JSONPropertyParseResult> lstResult = new List<JSONPropertyParseResult>();
             String subClassTemplate = "";
             if (jsonType == JSONType.Request) {
-                subClassTemplate = File.ReadAllText("../src/jsonapexgeneratorcore/Assets/requestsubclass.txt");
+                subClassTemplate = File.ReadAllText(ASSETPATH + "requestsubclass.txt");
             }
             if (jsonType == JSONType.Response) {
-                subClassTemplate = File.ReadAllText("../src/jsonapexgeneratorcore/Assets/responsesubclass.txt");
+                subClassTemplate = File.ReadAllText(ASSETPATH + "responsesubclass.txt");
             }
             //Parse JSON
             using(JsonDocument parsedJSON = JsonDocument.Parse(jsonStr)) {
@@ -282,10 +286,12 @@ namespace JsonApexGeneratorCore.Helper {
 
             templateString = templateString.Replace("{requestParamsWithType}", this.requestParamsWithType);
             templateString = templateString.Replace("{requestParams}", this.requestParams);
-            templateString = templateString.Replace("{requestJSON}", this.requestJSON.Replace(Environment.NewLine, " "));
+            //templateString = templateString.Replace("{requestJSON}", this.requestJSON.Replace(Environment.NewLine, " "));
+            templateString = templateString.Replace("{requestJSON}", Regex.Replace(this.requestJSON, @"\r\n?|\n", " "));
             templateString = templateString.Replace("{requestJSONWrapperVars}", this.requestJSONWrapperVars);
             templateString = templateString.Replace("{requestJSONWrapperVarsThis}", this.requestJSONWrapperVarsThis);
-            templateString = templateString.Replace("{responseJSON}", this.responseJSON.Replace(Environment.NewLine, " "));
+            //templateString = templateString.Replace("{responseJSON}", this.responseJSON.Replace(Environment.NewLine, " "));
+            templateString = templateString.Replace("{responseJSON}", Regex.Replace(this.responseJSON, @"\r\n?|\n", " "));
             templateString = templateString.Replace("{responseJSONWrapperVars}", this.responseJSONWrapperVars);
             templateString = templateString.Replace("{parseCode}", this.responseJSONExplicitParse);
             String arrayMethod = "";
@@ -312,7 +318,7 @@ namespace JsonApexGeneratorCore.Helper {
 
         //Return Sub Class Name
         private void createSubClass(JsonProperty property, String subClassName, String template, JSONType jsonType) {
-            List<JSONPropertyParseResult> results = jsonToClass(property.Value.GetString(), jsonType);
+            List<JSONPropertyParseResult> results = jsonToClass(property.Value.ToString(), jsonType);
 
             String subClassResult = replaceSubClassVariables(template, subClassName, results);
             this.otherClasses += (this.otherClasses.Length > 0) ? Environment.NewLine + subClassResult : subClassResult;
@@ -328,7 +334,7 @@ namespace JsonApexGeneratorCore.Helper {
                 wrapperVars += results[i].variableDeclaration + Environment.NewLine;
                 thisWrapperVars += results[i].thisParameterization + Environment.NewLine;
 
-                methodParams += results[i].paramName;
+                methodParams += results[i].parameterization;
                 if (i != results.Count -1) {
                     methodParams += ", ";
                 }

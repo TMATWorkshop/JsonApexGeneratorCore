@@ -3,7 +3,7 @@ public class {className}Wrapper {
     public class Request {
         {requestJSONWrapperVars}
 
-        public Request ({requestParams}) {
+        public Request ({requestParamsWithType}) {
             {requestJSONWrapperVarsThis}
         }
     }
