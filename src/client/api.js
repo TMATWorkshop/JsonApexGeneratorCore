@@ -5,20 +5,45 @@ function handleErrors(response) {
 	return response;
 }
 
-function getValues() {
-	return fetch('/api/values')
+function generateFiles(classNameParam, namedCredentialParam, urlExtensionParam, calloutMethodParam, requestJSONParam, responseJSONParam) {
+	const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ className: classNameParam,
+								namedCredential: namedCredentialParam,
+								calloutMethod: calloutMethodParam,
+								requestJSON: requestJSONParam,
+								responseJSON: responseJSONParam,
+								urlExtension: urlExtensionParam })
+    };
+	fetch('/api/apex/', requestOptions)
 		.then(handleErrors)
-		.then(response => response.json())
+		.then(r => r.blob())
+		.then(response => {
+			const element = document.createElement("a");
+			const file = new Blob([response], {type: 'application/zip'});
+			element.href = URL.createObjectURL(file);
+			element.download = classNameParam + '.zip';
+			document.body.appendChild(element); // Required for this to work in FireFox
+			element.click();
+		})
 		.catch(err => alert(err));
-}
-
-function getFiles() {
-	return fetch('/api/values')
+	/*
+	fetch('/api/apex/wrapper', requestOptions)
 		.then(handleErrors)
-		.then(response => response.json())
+		.then(r => r.blob())
+		.then(response => {
+			const element = document.createElement("a");
+			const file = new Blob([response], {type: 'text/plain'});
+			element.href = URL.createObjectURL(file);
+			element.download = className + 'Wrapper.apxc';
+			document.body.appendChild(element); // Required for this to work in FireFox
+			element.click();
+		})
 		.catch(err => alert(err));
+		*/
 }
 
 export default {
-	getValues
+	generateFiles
 };

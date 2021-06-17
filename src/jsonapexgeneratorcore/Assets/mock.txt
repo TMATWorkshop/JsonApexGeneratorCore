@@ -1,0 +1,31 @@
+/* Class Generated with JSONApexGeneratorCore */
+@IsTest
+public class {className}Mock implements HttpCalloutMock {
+    public Integer responseCode = 200;
+    public Boolean emptyResponse = false;
+    public Boolean badResponse = false;
+    public Boolean throwException = false;
+
+    public HttpResponse respond (HttpRequest request) {
+        String json = '{responseJSON}';
+
+        if (emptyResponse) {
+            json = '';
+        }
+
+        if (badResponse) {
+            json = '{ \"response\": "invalid format" }';
+        }
+
+        HttpResponse response = new HttpResponse();
+        response.setHeader('Content-Type', 'application/json');
+        response.setBody(json);
+        response.setStatusCoce(responseCode);
+
+        if (throwException) {
+            throw new CalloutException();
+        }
+
+        return response;
+    }
+}

@@ -27,6 +27,9 @@ class FormPage extends React.Component {
     this.state = {className: '', 
                   classNameMsg: 'Enter Class Name prefix',
                   classNameError: false,
+                  urlExtension: '', 
+                  urlExtensionMsg: 'Enter URL Extension after Named credential',
+                  urlExtensionError: false,
                   namedCredential: '', 
                   namedCredentialMsg: 'Enter Named Credential API Name',
                   namedCredentialError: false,
@@ -37,12 +40,14 @@ class FormPage extends React.Component {
                   responseJSON: '',
                   responseJSONErrorMsg: '',
                   responseJSONError: false,
-
+                  requestJSONValid: false,
+                  responseJSONValid: false
                 };
 
     this.handleChange = this.handleChange.bind(this);
     this.validateRequestJSON = this.validateRequestJSON.bind(this);
     this.validateResponseJSON = this.validateResponseJSON.bind(this);
+    this.generateFiles = this.generateFiles.bind(this);
   }
 
   handleChange(e) {
@@ -52,16 +57,17 @@ class FormPage extends React.Component {
   }
 
   validateRequestJSON(event) {
-    console.log('validateJSON');
     try {
       var jsonObj = JSON.parse(this.state.requestJSON);
       var prettyJSON = JSON.stringify(jsonObj, undefined, 2);
       this.setState({requestJSON: prettyJSON }); 
       this.setState({ requestJSONErrorMsg : '', requestJSONError : false });
+      this.setState({ requestJSONValid : true });
     }
     catch (err) {
       console.log(err);
       this.setState({ requestJSONErrorMsg : err.message, requestJSONError : true });
+      this.setState({ requestJSONValid : false });
     }
   }
 
@@ -71,16 +77,35 @@ class FormPage extends React.Component {
       var prettyJSON = JSON.stringify(jsonObj, undefined, 2);
       this.setState({responseJSON: prettyJSON });
       this.setState({ responseJSONErrorMsg : '', responseJSONError : false });
+      this.setState({ responseJSONValid : true });
     }
     catch (err) {
       //Highlight Error in JSON file
       console.log(err.message);
       this.setState({ responseJSONErrorMsg : err.message, responseJSONError : true });
+      this.setState({ responseJSONValid : false });
     }
   }
 
   generateFiles(event) {
-    api.generateFiles();
+    /*
+    this.validateResponseJSON(event);
+    this.validateRequestJSON(event);
+    if (this.state.responseJSONValid && 
+        this.state.requestJSONValid && 
+        this.state.className.length > 0 &&
+        this.state.namedCredential.length > 0 &&
+        this.state.urlExtension.length > 0 &&
+        this.state.requestType.length > 0 &&
+        this.state.requestJSON.length > 0 &&
+        this.state.responseJSON.length > 0) {
+      api.generateFiles(this.state.className, this.state.namedCredential, this.state.urlExtension, this.state.requestType, this.state.requestJSON, this.state.responseJSON);
+    }
+    else {
+      alert('Please check your input');
+    }
+    */
+    api.generateFiles(this.state.className, this.state.namedCredential, this.state.urlExtension, this.state.requestType, this.state.requestJSON, this.state.responseJSON);
   }
 
   render() {
@@ -88,7 +113,7 @@ class FormPage extends React.Component {
     return (
       <div className={classes.section}>
         <div>
-          <GridContainer>
+          <GridContainer spacing={1}>
             <GridItem xs={12} sm={12} md={12}>
               <InfoArea
                 title="Properties"
@@ -97,8 +122,8 @@ class FormPage extends React.Component {
                 iconColor="danger"
                 vertical
               />
-              <GridContainer>
-                <GridItem xs={12} sm={6} md={4}>
+              </GridItem>
+                <GridItem xs={12} sm={6} md={6}>
                   <TextField
                     id="txtClassName"
                     name="className"
@@ -111,7 +136,20 @@ class FormPage extends React.Component {
                     error={this.state.classNameError}
                   />
                 </GridItem>
-                <GridItem xs={12} sm={6} md={4}>
+                <GridItem xs={12} sm={6} md={6}>
+                  <InputLabel htmlFor="ddlRequestType">Request Type</InputLabel>
+                  <NativeSelect
+                    id="ddlRequestType"
+                    fullWidth
+                    variant="outlined"
+                    value={this.state.requestType}
+                    onChange={this.handleChange}
+                    required
+                  >
+                    <option value="POST">POST</option>
+                  </NativeSelect>
+                </GridItem>
+                <GridItem xs={12} sm={6} md={6}>
                   <TextField
                     id="txtNamedCredential"
                     name="namedCredential"
@@ -124,19 +162,18 @@ class FormPage extends React.Component {
                     error={this.state.namedCredentialError}
                 />
                 </GridItem>
-                <GridItem xs={12} sm={6} md={4}>
-                  <InputLabel htmlFor="ddlRequestType">Request Type</InputLabel>
-                  <NativeSelect
-                    id="ddlRequestType"
-                    fullWidth
+                <GridItem xs={12} sm={6} md={6}>
+                  <TextField
+                    id="txtURLExtension"
+                    name="urlExtension"
+                    label={this.state.urlExtensionMsg}
                     variant="outlined"
-                    value={this.state.requestType}
+                    fullWidth
+                    value={this.state.urlExtension}
                     onChange={this.handleChange}
                     required
-                  >
-                    <option value="POST">POST</option>
-                    <option value="GET">GET</option>
-                  </NativeSelect>
+                    error={this.state.urlExtensionError}
+                />
                 </GridItem>
                 <GridItem xs={12}>
                   <Button 
@@ -146,8 +183,6 @@ class FormPage extends React.Component {
                     Generate Apex Files
                   </Button>
                 </GridItem>
-              </GridContainer>
-            </GridItem>
           </GridContainer>
           <GridContainer>
             <GridItem xs={12} sm={12} md={6}>
@@ -209,11 +244,15 @@ class FormPage extends React.Component {
           </GridContainer>
         </div>
         <GridContainer justify="center">
-          <GridItem xs={12} sm={12} md={8}>
+          <GridItem xs={12} sm={12} md={12}>
             <h3 className={classes.title}>Usage</h3>
-            <h5 className={classes.description}>
-              Add Instructions on usage here
-            </h5>
+          </GridItem>
+          <GridItem xs={12} sm={12} md={12}>
+                  <p>1.) Enter a value for all the fields</p>
+                  <p> 2.) Click on "Generate Apex Files"</p>
+                  <p>3.) Extract the zip file and copy the contents to the classes folder of your SFDX project 
+                  <br /> --or-- <br /> 
+                  copy the contents of the .cls files to your Developer Console</p>    
           </GridItem>
         </GridContainer>
       </div>

@@ -1,0 +1,18 @@
+public class {subClassName} {
+    {responseJSONWrapperVars}
+
+    public {subClassName}(JSONParser parser) {
+        while (parser.nextToken() != System.JSONToken.END_OBJECT) {
+            if (parser.getCurrentToken() == System.JSONToken.FIELD_NAME) {
+                String text = parser.getText();
+                if (parser.nextToken() != System.JSONToken.VALUE_NULL) {
+                    {parseCode}
+                    else {
+                        System.debug(LoggingLevel.WARN, 'Subclass consuming unrecognized property: '+text);
+                        consumeObject(parser);
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,18 @@
+/* Class Generated with JSONApexGeneratorCore */
+@IsTest
+public class {className}HandlerTest {
+    @IsTest
+    static void getResponse() {
+        {className}Mock mockClass = new {className}Mock();
+        mockClass.responseCode = 200;
+        
+        Test.setMock(HTTPCalloutMock.class, mockClass);
+
+        Test.startTest();
+        {className}Wrapper.Request requestWrapper = new {className}Wrapper.Request();
+        {className}Wrapper.Response responseWrapper = {className}Handler.callout(requestWrapper);
+        Test.stopTest();
+
+        System.assert(responseWrapper != null);
+    }
+}

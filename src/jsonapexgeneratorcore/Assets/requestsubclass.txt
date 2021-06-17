@@ -1,0 +1,11 @@
+public class {subClassName} {
+    {requestJSONWrapperVars}
+
+    public {subClassName} () {
+        //Empty Constructor for initialization
+    }
+
+    public {subClassName}({requestParams}) {
+        {requestJSONWrapperVarsThis}
+    }
+}
